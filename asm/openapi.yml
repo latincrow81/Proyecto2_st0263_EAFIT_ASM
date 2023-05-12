@@ -1,0 +1,258 @@
+openapi: 3.0.3
+info:
+  title: Gateway Proyecto 1 - MOM
+  version: '1.0'
+servers:
+  - url: http://localhost:{port}
+    description: Gateway Local
+    variables:
+      port:
+        default: '8000'
+paths:
+  /read_from_queue/{queue_name}:
+    get:
+      summary: read from queue
+      parameters:
+        - schema:
+            type: string
+          name: queue_name
+          in: path
+          required: true
+      responses:
+        '200':
+          description: message from queue
+          content:
+            application/json: { }
+        '404':
+          description: queue not found
+          content:
+            application/json: { }
+      description: Read message on queue
+      operationId: read_from_queue
+      x-openapi-router-controller: app.controllers
+      tags:
+        - read_from_queue
+  /post_to_queue/{queue_name}:
+    post:
+      summary: post message to queue
+      parameters: 
+        - schema:
+            type: string
+          name: queue_name
+          in: path
+          required: true
+      requestBody:
+        description: payload for queue
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Payload'
+      responses:
+        '200':
+          description: Message post to queue
+          content:
+            application/json: {}
+        '424':
+          description: Failed dependency MOM
+          content:
+            application/json: { }
+      description: post message to queue
+      operationId: post_to_queue
+      x-openapi-router-controller: app.controllers
+      tags:
+        - post_to_queue
+  /create_queue/{queue_name}:
+    post:
+      summary: Create queue with name on mom
+      parameters:
+        - schema:
+            type: string
+          name: queue_name
+          in: path
+          required: true
+      responses:
+        '200':
+          description: Queue created
+          content:
+            application/json: { }
+        '424':
+          description: Failed dependency MOM
+          content:
+            application/json: { }
+      description: create-queue
+      operationId: create_queue
+      x-openapi-router-controller: app.controllers
+      tags:
+        - create_queue
+  /delete_queue/{queue_name}:
+    post:
+      summary: Delete queue with name on mom
+      parameters:
+        - schema:
+            type: string
+          name: queue_name
+          in: path
+          required: true
+      responses:
+        '200':
+          description: Queue deleted
+          content:
+            application/json: { }
+        '424':
+          description: Failed dependency MOM
+          content:
+            application/json: { }
+      description: delete-queue
+      operationId: delete_queue
+      x-openapi-router-controller: app.controllers
+      tags:
+        - delete_queue
+  /list_queues:
+    get:
+      summary: list queues
+      responses:
+        '200':
+          description: list of available queues
+          content:
+            application/json: { }
+        '404':
+          description: queue not found
+          content:
+            application/json: { }
+      description: List queues
+      operationId: list_queues
+      x-openapi-router-controller: app.controllers
+      tags:
+        - list_queues
+  /list_topics:
+    get:
+      summary: list topics
+      responses:
+        '200':
+          description: list of available topics
+          content:
+            application/json: { }
+        '404':
+          description: topics not found
+          content:
+            application/json: { }
+      description: List topics
+      operationId: list_topics
+      x-openapi-router-controller: app.controllers
+      tags:
+        - list_topics
+  /read_from_topic/{topic_name}:
+    get:
+      summary: read from topic
+      parameters:
+        - schema:
+            type: string
+          name: topic_name
+          in: path
+          required: true
+      responses:
+        '200':
+          description: message from topic
+          content:
+            application/json: { }
+        '404':
+          description: topic not found
+          content:
+            application/json: { }
+      description: Read message on topic
+      operationId: read_from_topic
+      x-openapi-router-controller: app.controllers
+      tags:
+        - read_from_topic
+  /post_to_topic/{topic_name}:
+    post:
+      summary: post message to topic
+      parameters:
+        - schema:
+            type: string
+          name: topic_name
+          in: path
+          required: true
+      requestBody:
+        description: payload for topic
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Payload'
+      responses:
+        '200':
+          description: Message post to topic
+          content:
+            application/json: {}
+        '424':
+          description: Failed dependency MOM
+          content:
+            application/json: { }
+      description: post message to topic
+      operationId: post_to_topic
+      x-openapi-router-controller: app.controllers
+      tags:
+        - post_to_topic
+  /create_topic/{topic_name}:
+    post:
+      summary: Create topic with name on mom
+      parameters:
+        - schema:
+            type: string
+          name: topic_name
+          in: path
+          required: true
+      responses:
+        '200':
+          description: Topic created
+          content:
+            application/json: { }
+        '424':
+          description: Failed dependency MOM
+          content:
+            application/json: { }
+      description: create-topic
+      operationId: create_topic
+      x-openapi-router-controller: app.controllers
+      tags:
+        - create_topic
+  /delete_topic/{topic_name}:
+    post:
+      summary: Delete topic with name on mom
+      parameters:
+        - schema:
+            type: string
+          name: topic_name
+          in: path
+          required: true
+      responses:
+        '200':
+          description: Topic deleted
+          content:
+            application/json: { }
+        '424':
+          description: Failed dependency MOM
+          content:
+            application/json: { }
+      description: delete-topic
+      operationId: delete_topic
+      x-openapi-router-controller: app.controllers
+      tags:
+        - delete_topic
+
+components:
+  schemas:
+    Payload:
+      additionalProperties: false
+      type: object
+      x-examples:
+        ExamplePayload:
+          data: "something"
+      properties:
+        data:
+          type: string
+      required:
+        - data
+      description: Payload to send to queue.

@@ -1,0 +1,14 @@
+version: '3.6'
+
+services:
+  api_gateway:
+    build:
+      dockerfile: asm/Dockerfile
+    command:
+      - /docker-entrypoint.sh
+    networks:
+      - default
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./asm/docker-entrypoint.sh:/docker-entrypoint.sh
