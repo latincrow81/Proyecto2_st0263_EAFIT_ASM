@@ -4,7 +4,7 @@ package asm;
 
 service MonitorService {
   rpc Ping(PingRequest) returns (PingResponse) {}
-  rpc SendMetrics() returns (MetricsResponse) {}
+  rpc SendMetrics(MetricsRequest) returns (MetricsResponse) {}
 }
 
 message PingRequest {
