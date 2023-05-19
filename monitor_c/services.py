@@ -11,14 +11,14 @@ HOST_ASM = config.get('HOST_ASM')
 PORT_ASM = config.get('PORT_ASM')
 
 
-class Handler(asm_pb2_grpc.MessageQueueServicer):
+class Handler(asm_pb2_grpc.MonitorServiceServicer):
     def Ping(self, request, context):
         return asm_pb2.PingResponse(success=True)
 
 def send_status(message) -> str:
     with grpc.insecure_channel(f"{HOST_ASM}:{PORT_ASM}") as channel:
-        stub = asm_pb2_grpc.MessageStub(channel)
-        response = stub.PushMessage(message)
+        stub = asm_pb2_grpc.MonitorSeriviceStub(channel)
+        response = stub.GetMetrics(message)
 
     return response.result
 
