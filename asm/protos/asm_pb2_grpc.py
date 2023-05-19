@@ -19,8 +19,8 @@ class MonitorServiceStub(object):
                 request_serializer=asm__pb2.PingRequest.SerializeToString,
                 response_deserializer=asm__pb2.PingResponse.FromString,
                 )
-        self.SendMetrics = channel.unary_unary(
-                '/asm.MonitorService/SendMetrics',
+        self.GetMetrics = channel.unary_unary(
+                '/asm.MonitorService/GetMetrics',
                 request_serializer=asm__pb2.MetricsRequest.SerializeToString,
                 response_deserializer=asm__pb2.MetricsResponse.FromString,
                 )
@@ -35,7 +35,7 @@ class MonitorServiceServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
-    def SendMetrics(self, request, context):
+    def GetMetrics(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -49,8 +49,8 @@ def add_MonitorServiceServicer_to_server(servicer, server):
                     request_deserializer=asm__pb2.PingRequest.FromString,
                     response_serializer=asm__pb2.PingResponse.SerializeToString,
             ),
-            'SendMetrics': grpc.unary_unary_rpc_method_handler(
-                    servicer.SendMetrics,
+            'GetMetrics': grpc.unary_unary_rpc_method_handler(
+                    servicer.GetMetrics,
                     request_deserializer=asm__pb2.MetricsRequest.FromString,
                     response_serializer=asm__pb2.MetricsResponse.SerializeToString,
             ),
@@ -82,7 +82,7 @@ class MonitorService(object):
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
-    def SendMetrics(request,
+    def GetMetrics(request,
             target,
             options=(),
             channel_credentials=None,
@@ -92,7 +92,7 @@ class MonitorService(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/asm.MonitorService/SendMetrics',
+        return grpc.experimental.unary_unary(request, target, '/asm.MonitorService/GetMetrics',
             asm__pb2.MetricsRequest.SerializeToString,
             asm__pb2.MetricsResponse.FromString,
             options, channel_credentials,
