@@ -7,6 +7,12 @@ from .services import send_message, get_message, send_message_topic, get_message
 # Manda mensaje para que la cola se cree
 
 
-def list_instances() -> Response:
+def crear_pool() -> Response:
     pass
+
+
+def eliminar_pool() -> Response:
+    pass
+
+
 

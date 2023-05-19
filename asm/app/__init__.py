@@ -4,6 +4,10 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from werkzeug.exceptions import HTTPException
 
+# instantiate extensions
+login_manager = LoginManager()
+db = SQLAlchemy()
+
 def create_app():
 
     from .config import config

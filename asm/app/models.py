@@ -1,5 +1,15 @@
 from .auth.models import User, AnonymousUser
+from .. import db
+from datetime import datetime
 
-# Define your models here.
-# You can also define them inside a package and import them here.
-# This is only a convenience so that all your models are available from a single module.
+class Pool(db.Model):
+    __tablename__ = 'pool'
+    id = db.Column(db.Integer, primary_key=True)
+    pool_name = db.Column(db.String(60), unique=True, nullable=False)
+    created_at = db.Column(db.DateTime, default=datetime.now)
+
+class Instance(db.Model):
+    __tablename__ = 'instance'
+    id = db.Column(db.Integer, primary_key=True)
+    instance_id = db.Column(db.String(60), unique=True, nullable=False)
+    created_at = db.Column(db.DateTime, default=datetime.now)
