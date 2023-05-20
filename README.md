@@ -42,14 +42,53 @@ En resumen, la actividad consistirá en diseñar, implementar y configurar un si
 
 
 # 3.2. Detalles del desarrollo.
+Se generan los protos para el ASM para la comunicación gRPC al MonitorC al igual que los protos para el MOnitorC.
 
+El MonitorC recibe la información del sistema con psutils y la manda por gRPC al ASM enviando un reporte cada 5 min y le responde con un ping desde el servidor. 
 
 
 # 3.3. Detalles técnicos
 
+Los requirements del MoinitorC son:
+
+    grpcio==1.54.2
+    protobuf==4.22.0
+    python-dotenv==0.20.0
+    grpcio-tools==1.54.2
+    psutil==5.9.5
+
+Los requirements del ASM son:
+
+    click==8.1.3
+    Flask==2.0.3
+    flask-injector==0.13.0
+    connexion[swagger-ui]==2.13.1
+    dynaconf==3.1.8
+    Flask-Login
+    Flask-SQLAlchemy
+    Flask-WTF==1.1.1
+    itsdangerous==2.1.2
+    Jinja2==3.0.3
+    MarkupSafe==2.1.2
+    python-dotenv==1.0.0
+    SQLAlchemy==1.4.41
+    Werkzeug==2.2.3
+    WTForms==3.0.1
+    gunicorn==20.1.0
+    validators==0.20.0
+    email_validator==1.3.1
+    grpcio==1.51.3
+    protobuf==4.22.0
+    alembic==1.8.0
 
 
 # 3.4. Descripción y como se configura los parámetros del proyecto (ej: ip, puertos, conexión a bases de datos, variables de ambiente, parámetros, etc)
+
+El .env del MonitorC es:
+
+    PORT_MONC=50051
+    HOST_ASM=44.208.133.22
+    PORT_ASM=50051
 
 
 
