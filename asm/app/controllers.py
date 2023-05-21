@@ -20,7 +20,7 @@ def crear_pool(pool_name) -> Response:
     session.add(record_instancia_2)
     session.commit()
 
-    Response(status=200, response=f"pool creado con 2 nodos, {instance_1.instanceId} y {instance_2.instanceId}")
+    return Response(status=200, response=f"pool creado con 2 nodos, {instance_1.instanceId} y {instance_2.instanceId}")
 
 
 def eliminar_pool(pool_name) -> Response:

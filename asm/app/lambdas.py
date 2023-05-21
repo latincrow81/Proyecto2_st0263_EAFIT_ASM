@@ -51,3 +51,5 @@ def handle_critical(instance_url):
     for instance in pool_instances:
         if instance.status == InstanceState.STOPPED:
             iniciar_instancia(instance_id=instance.instanceId)
+            instance.status = InstanceState.RUNNING
+            session.commit()
