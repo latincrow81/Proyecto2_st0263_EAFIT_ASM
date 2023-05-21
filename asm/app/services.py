@@ -1,21 +1,10 @@
-import json
-import grpc
-from dotenv import dotenv_values
 from boto3 import ec2
-from protos import asm_pb2_grpc
+from dotenv import dotenv_values
 
 config = dotenv_values(".env")
 
-HOST_GRPC = config.get('HOST_MOM')
-PORT_GRPC = config.get('PORT_MOM')
+DRY_RUN = config.get('DRY_RUN')
 
-
-def send_ping(message) -> str:
-    with grpc.insecure_channel(f"{HOST_GRPC}:{PORT_GRPC}") as channel:
-        stub = asm_pb2_grpc.MessageStub(channel)
-        response = stub.PushMessage(message)
-
-    return response.result
 
 def crear_instancia() -> ec2.Instance:
     instance = ec2.create_instances(
@@ -65,3 +54,12 @@ def detener_instancia(instance_id):
         DryRun=False,
         Force=True
     )
+
+
+def reiniciar_instancia(instance_id) -> None:
+    ec2.reboot_instances(
+        InstanceIds=[
+            'string',
+        ],
+        DryRun=True|False
+)

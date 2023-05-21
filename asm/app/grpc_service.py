@@ -1,39 +1,60 @@
 import grpc
+import json
 from concurrent import futures
 from enum import Enum
-
+from services import reiniciar_instancia
 from dotenv import dotenv_values
+from sqlalchemy.orm import sessionmaker
+from app.protos import asm_pb2_grpc
+from models import Instance
 
-from app.protos import asm_pb2_grpc, asm_pb2
+session = sessionmaker()
 
 config = dotenv_values(".env")
 
-SERVER_ADDRESS = config.get('HOST_MOM')
-GRPC_PORT = config.get('PORT_MOM')
+grpc_config = json.dumps(
+    {
+        "methodConfig": [
+            {
+                "name": [{"service": "<package>.<service>"}],
+                "retryPolicy": {
+                    "maxAttempts": 5,
+                    "initialBackoff": "0.1s",
+                    "maxBackoff": "10s",
+                    "backoffMultiplier": 2,
+                    "retryableStatusCodes": ["UNAVAILABLE"],
+                },
+            }
+        ]
+    }
+)
+
+PORT_MONC = config.get('PORT_MONC')
+PORT_ASM = config.get('PORT_ASM')
+
+
 
 class Handler(asm_pb2_grpc.MonitorServiceServicer):
 
     def GetMetrics(self, request, context):
-        if request.status == Status.HEALTHY.value:
-           pass
-           # do nothing unless we have an instance in observation
-           # if primary and secondary of pool report healthy 3 times and we have other instances stop other instances 
-        elif request.op == Status.BASELOAD.value:
-           pass
-           # do nothing
-        elif request.op == Status.HEAVYLOAD.value:
-           pass
-           # create instance 
-        elif request.op == Status.CRITICAL.value:
-           pass
-           # start instance
-        else:
-            pass
+       pass
 
-   
+def send_ping(message) -> str:
+    active_instances = session.query(Instance).all()
+    for instance in active_instances:
+        with grpc.insecure_channel(f"{instance.instance_endpoint}:{PORT_ASM}", options=[("grpc.service_config", grpc_config)]) as channel:
+            stub = asm_pb2_grpc.MessageStub(channel)
+            response = stub.PushMessage(message)
+            if not response.success:
+                reiniciar_instancia(instance.instance_id)
 
-class Status(Enum):
-    HEALTHY = 'healthy'
-    BASELOAD = 'baseload'
-    HEAVYLOAD = 'heavyload'
-    CRITICAL = 'critical'
+
+    return response.result
+
+def run_server():
+    server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
+    asm_pb2_grpc.add_MonitorServiceServicer_to_server(Handler(), server)
+    server.add_insecure_port('[::]:' + PORT_ASM)
+    server.start()
+    print(f'MonitorS en ejecución en el puerto {PORT_ASM}...')
+    server.wait_for_termination()

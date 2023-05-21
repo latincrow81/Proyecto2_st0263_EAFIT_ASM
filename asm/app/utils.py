@@ -1,4 +1,5 @@
 from . import db
+from enum import Enum
 
 
 class ModelMixin(object):
@@ -11,3 +12,13 @@ class ModelMixin(object):
 
 
 # Add your own utility classes and functions here.
+class InstanceState(Enum):
+    RUNNING = 'running'
+    STOPPED = 'stopped'
+
+
+class Status(Enum):
+    HEALTHY = 'healthy'
+    BASELOAD = 'baseload'
+    HEAVYLOAD = 'heavyload'
+    CRITICAL = 'critical'
