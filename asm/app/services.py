@@ -6,7 +6,7 @@ config = dotenv_values(".env")
 DRY_RUN = config.get('DRY_RUN')
 
 
-def crear_instancia() -> ec2.Instance:
+def crear_instancia():
     instance = ec2.create_instances(
         InstanceType='t2.micro',
         Monitoring={
@@ -27,21 +27,23 @@ def crear_instancia() -> ec2.Instance:
 
     return instance
 
+
 def eliminar_instancia(instance_id):
     response = ec2.terminate_instances(
         InstanceIds=[
             instance_id,
         ],
-        DryRun=False
+        DryRun=DRY_RUN
     )
     return response
+
 
 def iniciar_instancia(instance_id):
     response = ec2.start_instances(
         InstanceIds=[
             instance_id,
         ],
-        DryRun=False
+        DryRun=DRY_RUN
     )
     return response
 
@@ -51,7 +53,7 @@ def detener_instancia(instance_id):
            instance_id,
         ],
         Hibernate=False,
-        DryRun=False,
+        DryRun=DRY_RUN,
         Force=True
     )
 
@@ -61,5 +63,5 @@ def reiniciar_instancia(instance_id) -> None:
         InstanceIds=[
             'string',
         ],
-        DryRun=True|False
+        DryRun=DRY_RUN
 )

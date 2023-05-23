@@ -1,12 +1,15 @@
-from .auth.models import User, AnonymousUser
-from .. import db
+
 from datetime import datetime
+
+from app import db
+
 
 class Pool(db.Model):
     __tablename__ = 'pool'
     id = db.Column(db.Integer, primary_key=True)
     pool_name = db.Column(db.String(60), unique=True, nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.now)
+
 
 class Instance(db.Model):
     __tablename__ = 'instance'
@@ -16,6 +19,7 @@ class Instance(db.Model):
     status = db.Column(db.String(10), nullable=False)
     instance_endpoint = db.Column(db.String(120), nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.now)
+
 
 class Metrics(db.Model):
     __tablename__ = 'metric'
@@ -27,7 +31,8 @@ class Metrics(db.Model):
     network_usage = db.Column(db.String(60), nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.now)
 
-class PoolObservation(db.Moddel):
+
+class PoolObservation(db.Model):
     __tablename__ = 'pool_observation'
     id = db.Column(db.Integer, primary_key=True)
     pool_id = db.Column(db.Integer, nullable=False)

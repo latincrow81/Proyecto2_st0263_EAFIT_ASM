@@ -8,7 +8,7 @@
       <excludeFolder url="file://$MODULE_DIR$/apigtw" />
       <excludeFolder url="file://$MODULE_DIR$/p1env" />
     </content>
-    <orderEntry type="jdk" jdkName="Python 3.9" jdkType="Python SDK" />
+    <orderEntry type="jdk" jdkName="Python 3.11 (asm_env)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
   <component name="PyDocumentationSettings">

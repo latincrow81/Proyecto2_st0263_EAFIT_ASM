@@ -1,12 +1,16 @@
 import connexion
-from flask import Flask, render_template
+from flask import render_template
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from werkzeug.exceptions import HTTPException
+from dotenv import dotenv_values
 
 # instantiate extensions
 login_manager = LoginManager()
 db = SQLAlchemy()
+
+env_config = dotenv_values(".env")
+
 
 def create_app():
 
@@ -21,17 +25,15 @@ def create_app():
     app.add_api('../openapi.yml')
 
     # Set app config.
-    env = os.environ.get('FLASK_ENV', environment)
-    app.config.from_object(config[env])
-    config[env].configure(app)
+    app.app.config.update(env_config)
 
     # Set up extensions.
-    db.init_app(app)
-    login_manager.init_app(app)
+    db.init_app(app.app)
+    login_manager.init_app(app.app)
 
     # Register blueprints.
-    app.register_blueprint(auth_blueprint)
-    app.register_blueprint(main_blueprint)
+    app.app.register_blueprint(auth_blueprint)
+    app.app.register_blueprint(main_blueprint)
 
     # Set up flask login.
     @login_manager.user_loader
@@ -43,7 +45,7 @@ def create_app():
     login_manager.anonymous_user = AnonymousUser
 
     # Error handlers.
-    @app.errorhandler(HTTPException)
+    @app.app.errorhandler(HTTPException)
     def handle_http_error(exc):
         return render_template('error.html', error=exc), exc.code
     

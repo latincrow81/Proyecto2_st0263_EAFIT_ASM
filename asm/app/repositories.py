@@ -1,5 +1,5 @@
 from sqlalchemy.orm import sessionmaker
-from models import Pool, Instance, PoolObservation
+from app.models import Pool, Instance, PoolObservation
 
 session = sessionmaker()
 

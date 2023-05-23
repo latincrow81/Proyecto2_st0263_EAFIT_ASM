@@ -1,22 +1,29 @@
 from flask import Blueprint, render_template, url_for, redirect, flash, request
 from flask_login import login_user, logout_user, login_required
 
-from .. import db
+from app.db_api import DbAPI
 from .models import User
 from .forms import LoginForm, RegistrationForm
 
 auth_blueprint = Blueprint('auth', __name__)
+
+db_api = DbAPI()
 
 
 @auth_blueprint.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegistrationForm(request.form)
     if form.validate_on_submit():
-        user = User(username=form.username.data, email=form.email.data, password=form.password.data)
-        user.save()
-        login_user(user)
-        flash('Registration successful. You are logged in.', 'success')
-        return redirect(url_for("main.index"))
+        with db_api.session_local() as session:
+            user = User(username=form.username.data,
+                        email=form.email.data,
+                        password=form.password.data)
+            user.activated = True
+            session.add(user)
+            session.commit()
+            login_user(user)
+            flash('Registration successful. You are logged in.', 'success')
+            return redirect(url_for("main.index"))
     elif form.is_submitted():
         flash('The given data was invalid.', 'danger')
     return render_template('auth/register.html', form=form)
