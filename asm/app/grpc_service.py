@@ -2,11 +2,14 @@ import grpc
 import json
 from concurrent import futures
 from enum import Enum
+
+from app.queue_service import push_message_to_queue
+from protos import asm_pb2
 from services import reiniciar_instancia
 from dotenv import dotenv_values
 from sqlalchemy.orm import sessionmaker
 from app.protos import asm_pb2_grpc
-from models import Instance
+from models import Instance, Metrics
 
 session = sessionmaker()
 
@@ -33,11 +36,11 @@ PORT_MONC = config.get('PORT_MONC')
 PORT_ASM = config.get('PORT_ASM')
 
 
-
 class Handler(asm_pb2_grpc.MonitorServiceServicer):
+    def get_metrics(self, request, context):
+        push_message_to_queue(request)
+        return asm_pb2.MetricsResponse(instance_id=request.instance_id)
 
-    def GetMetrics(self, request, context):
-       pass
 
 def send_ping(message) -> str:
     active_instances = session.query(Instance).all()
@@ -48,8 +51,8 @@ def send_ping(message) -> str:
             if not response.success:
                 reiniciar_instancia(instance.instance_id)
 
-
     return response.result
+
 
 def run_server():
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))

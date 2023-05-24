@@ -42,13 +42,14 @@ def get_system_status():
     if ram_usage > 90:
         status = Status.CRITICAL
     
-    response = asm_pb2.MetricsResponse(status=status,
+    response = asm_pb2.MetricsRequest(status=status,
                                        disk=disk_usage,
                                        network=network_usage,
                                        cpu=cpu_state,
                                        ram=ram_usage,
                                        instance_id=instance_id)
     send_status(response)
+
 
 class Status(Enum):
     HEALTHY = 'healthy'

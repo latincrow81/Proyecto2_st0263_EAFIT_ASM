@@ -15,11 +15,11 @@ message PingResponse {
   bool success = 1;
 }
 
-message MetricsRequest {
+message MetricsResponse {
   string instance_id = 1;
 }
 
-message MetricsResponse {
+message MetricsRequest {
   string status = 1;
   int32 disk = 2;
   int32 network = 3;

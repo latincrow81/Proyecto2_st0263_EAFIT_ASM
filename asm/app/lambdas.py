@@ -1,14 +1,19 @@
+import json
+
 from sqlalchemy.orm import sessionmaker
+
+from app.db_api import DbAPI
 from queue_service import pop_message_from_queue
-from models import Instance, PoolObservation
+from models import Instance, PoolObservation, Metrics
 from services import detener_instancia, crear_instancia, iniciar_instancia
 from utils import InstanceState, Status
 from repositories import agregar_instancia
 
-session = sessionmaker()
+db_api = DbAPI()
+
 
 def process_queue():  
-    metrics_message = pop_message_from_queue()
+    metrics_message = json.loads(pop_message_from_queue())
     if metrics_message.status == Status.HEALTHY.value:
         if pool_in_observation(metrics_message.instance_id):
             prune_pool(instance_url=metrics_message.instance_url)
@@ -22,7 +27,14 @@ def process_queue():
         # start instance
     else:
         pass    
-
+    with db_api.session_local() as session:
+        metrics = Metrics(instance_id = metrics_message.instance_id,
+                          cpu_usage = metrics_message.cpu_usage,
+                          ram_usage = metrics_message.ram_usage,
+                          disk_usage = metrics_message.disk_usage,
+                          network_usage = metrics_message.network_usage)
+        session.add(metrics)
+        session.commit()
 
 
 def pool_in_observation(instance_url) -> bool:

@@ -5,6 +5,8 @@ from flask_login import LoginManager
 from werkzeug.exceptions import HTTPException
 from dotenv import dotenv_values
 
+from app.queue_service import init_stats_queue
+
 # instantiate extensions
 login_manager = LoginManager()
 db = SQLAlchemy()
@@ -48,5 +50,6 @@ def create_app():
     @app.app.errorhandler(HTTPException)
     def handle_http_error(exc):
         return render_template('error.html', error=exc), exc.code
-    
+
+    init_stats_queue()
     return app

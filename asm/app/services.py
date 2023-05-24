@@ -1,9 +1,11 @@
-from boto3 import ec2
+import boto3
 from dotenv import dotenv_values
 
 config = dotenv_values(".env")
 
-DRY_RUN = config.get('DRY_RUN')
+DRY_RUN = int(config.get('DRY_RUN'))
+
+ec2 = boto3.resource("ec2")
 
 
 def crear_instancia():
@@ -12,6 +14,9 @@ def crear_instancia():
         Monitoring={
             'Enabled': True
         },
+        MinCount=1,
+        MaxCount=1,
+        DryRun=bool(DRY_RUN),
         SecurityGroupIds=[
             'sg-0e5842b06c8ed87f8',
         ],
@@ -19,8 +24,7 @@ def crear_instancia():
         InstanceInitiatedShutdownBehavior='stop',
         
         LaunchTemplate={
-            'LaunchTemplateId': 'lt-0e7478d2842766243',
-            'LaunchTemplateName': 'SeedASG',
+            'LaunchTemplateId': '0e7478d2842766243',
             'Version': '1'
         }
     )
@@ -47,6 +51,7 @@ def iniciar_instancia(instance_id):
     )
     return response
 
+
 def detener_instancia(instance_id):
     response = ec2.stop_instances(
         InstanceIds=[
@@ -61,7 +66,7 @@ def detener_instancia(instance_id):
 def reiniciar_instancia(instance_id) -> None:
     ec2.reboot_instances(
         InstanceIds=[
-            'string',
+            instance_id,
         ],
         DryRun=DRY_RUN
 )
