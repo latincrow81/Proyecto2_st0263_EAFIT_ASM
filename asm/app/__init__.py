@@ -1,5 +1,5 @@
 import connexion
-from flask import render_template
+from flask import Flask, render_template
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from werkzeug.exceptions import HTTPException
@@ -25,7 +25,7 @@ def create_app():
 
     # Instantiate app.
 
-    app = connexion.FlaskApp(__name__)
+    app = Flask(__name__)
     app.add_api('../openapi.yml')
 
     # Set app config.
