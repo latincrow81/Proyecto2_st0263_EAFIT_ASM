@@ -12,3 +12,23 @@ services:
       - "5000:5000"
     volumes:
       - ./asm/docker-entrypoint.sh:/docker-entrypoint.sh
+  db:
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_DATABASE: 'asm_db'
+      # So you don't have to use root, but you can if you like
+      MYSQL_USER: 'asm_user'
+      # You can use whatever password you like
+      MYSQL_PASSWORD: 'asmDatabase2023!'
+      # Password for root access
+      MYSQL_ROOT_PASSWORD: 'asmDatabase2023!'
+    ports:
+      # <Port exposed> : <MySQL Port running inside container>
+      - '3306:3306'
+      # Where our data will be persisted
+    volumes:
+      - my-db:/var/lib/mysql
+# Names our volume
+volumes:
+  my-db:

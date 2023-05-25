@@ -3,13 +3,13 @@
 {% block content %}
 <div class="container py-4">
   <div class="card w-75 mx-auto">
-    <div class="card-header">Register</div>
+    <div class="card-header">Eliminar Pool</div>
     <div class="card-body">
-      <form action="/eliminar_pool" method="post">
-        <label for="id-pool">ID del Pool a eliminar:</label>
-        <input type="text" id="id-pool" name="id-pool" required>
-        <br>
-        <input type="submit" value="Eliminar Pool">
+      <form action="{{url_for("main.eliminar_pool")}}" method="post">
+        {{form.pool_name.label(class_="col-md-4 col-form-label text-md-right")}}
+        {{form.pool_name(class_='form-control')}}
+        {{ form.csrf_token }}
+        {{form.submit(class_='btn btn-primary')}}
       </form>
     </div>
   </div>

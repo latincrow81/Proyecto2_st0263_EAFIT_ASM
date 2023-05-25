@@ -1,6 +1,6 @@
 import json
 from multiprocessing.shared_memory import ShareableList
-from typing import Optional, Union
+from typing import Union
 
 # Controllador para operaciones de cola, se usara una cola de 20 posiciones
 STATS_QUEUE_NAME = "asm_stats"

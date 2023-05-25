@@ -1,6 +1,6 @@
-from flask import Blueprint, render_template, url_for, redirect, flash, request
+from flask import Blueprint, url_for, redirect
 from flask_login import login_user, logout_user, login_required
-
+from flask import request, flash, render_template
 from app.db_api import DbAPI
 from .models import User
 from .forms import LoginForm, RegistrationForm
@@ -29,6 +29,7 @@ def register():
     return render_template('auth/register.html', form=form)
 
 
+@login_required
 @auth_blueprint.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm(request.form)
