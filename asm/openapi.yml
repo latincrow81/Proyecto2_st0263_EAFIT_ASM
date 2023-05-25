@@ -9,15 +9,9 @@ servers:
       port:
         default: '5000'
 paths:
-  /crear_pool/{pool_name}:
+  /crear_pool:
     post:
       summary: Crear pool con nombre provisto
-      parameters:
-        - schema:
-            type: string
-          name: pool_name
-          in: path
-          required: true
       responses:
         '200':
           description: Pool Creado
@@ -32,15 +26,9 @@ paths:
       x-openapi-router-controller: app.controllers
       tags:
         - crear_pool
-  /eliminar_pool/{pool_name}:
+  /eliminar_pool:
     post:
       summary: eliminar pool de auto-escalamiento
-      parameters: 
-        - schema:
-            type: string
-          name: pool_name
-          in: path
-          required: true
       responses:
         '200':
           description: Pool e instancias eliminado
