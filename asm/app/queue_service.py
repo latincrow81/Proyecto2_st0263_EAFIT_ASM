@@ -9,11 +9,12 @@ STATS_QUEUE_NAME = "asm_stats"
 def init_stats_queue():
     # guardando nombre de cola en lista
     # creando cola en memoria
-    shared_memory_list = ShareableList([' ' * 1024, ' ' * 1024, ' ' * 1024, ' ' * 1024, ' ' * 1024,
-                                        ' ' * 1024, ' ' * 1024, ' ' * 1024, ' ' * 1024, ' ' * 1024,
-                                        ' ' * 1024, ' ' * 1024, ' ' * 1024, ' ' * 1024, ' ' * 1024,
-                                        ' ' * 1024, ' ' * 1024, ' ' * 1024, ' ' * 1024, ' ' * 1024], name=STATS_QUEUE_NAME)
-    return shared_memory_list
+    if not ShareableList(name=STATS_QUEUE_NAME):
+        shared_memory_list = ShareableList([' ' * 1024, ' ' * 1024, ' ' * 1024, ' ' * 1024, ' ' * 1024,
+                                            ' ' * 1024, ' ' * 1024, ' ' * 1024, ' ' * 1024, ' ' * 1024,
+                                            ' ' * 1024, ' ' * 1024, ' ' * 1024, ' ' * 1024, ' ' * 1024,
+                                            ' ' * 1024, ' ' * 1024, ' ' * 1024, ' ' * 1024, ' ' * 1024], name=STATS_QUEUE_NAME)
+        return shared_memory_list
 
 
 def push_message_to_queue(payload) -> Union[ShareableList, str]:
