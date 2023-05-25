@@ -9,7 +9,9 @@ STATS_QUEUE_NAME = "asm_stats"
 def init_stats_queue():
     # guardando nombre de cola en lista
     # creando cola en memoria
-    if not ShareableList(name=STATS_QUEUE_NAME):
+    try:
+        ShareableList(name=STATS_QUEUE_NAME)
+    except FileNotFoundError:
         shared_memory_list = ShareableList([' ' * 1024, ' ' * 1024, ' ' * 1024, ' ' * 1024, ' ' * 1024,
                                             ' ' * 1024, ' ' * 1024, ' ' * 1024, ' ' * 1024, ' ' * 1024,
                                             ' ' * 1024, ' ' * 1024, ' ' * 1024, ' ' * 1024, ' ' * 1024,
