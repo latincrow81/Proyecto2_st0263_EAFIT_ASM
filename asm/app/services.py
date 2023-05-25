@@ -1,11 +1,17 @@
 import boto3
+from botocore.config import Config
 from dotenv import dotenv_values
 
 config = dotenv_values(".env")
 
 DRY_RUN = int(config.get('DRY_RUN'))
+my_config = Config(
+    region_name=config.get('REGION'),
+    aws_access_key_id=config.get('aws_access_key_id'),
+    aws_secret_access_key=config.get('aws_secret_access_key')
+)
 
-ec2 = boto3.resource("ec2")
+ec2 = boto3.resource("ec2", config=my_config)
 
 
 def crear_instancia():
