@@ -4,6 +4,8 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from werkzeug.exceptions import HTTPException
 from dotenv import dotenv_values
+from sqlalchemy import create_engine
+from sqlalchemy_utils import database_exists, create_database
 
 from app.queue_service import init_stats_queue
 
@@ -31,6 +33,9 @@ def create_app():
 
     # Set up extensions.
     db.init_app(app.app)
+    engine = create_engine(env_config.get("SQLALCHEMY_DATABASE_URI"))
+    if not database_exists(engine.url):
+        create_database(engine.url)
     login_manager.init_app(app.app)
 
     # Register blueprints.
