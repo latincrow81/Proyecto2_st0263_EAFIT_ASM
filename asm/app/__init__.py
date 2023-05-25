@@ -26,21 +26,20 @@ def create_app():
     # Instantiate app.
 
     app = Flask(__name__)
-    app.add_api('../openapi.yml')
 
     # Set app config.
-    app.app.config.update(env_config)
+    app.config.update(env_config)
 
     # Set up extensions.
-    db.init_app(app.app)
+    db.init_app(app)
     engine = create_engine(env_config.get("SQLALCHEMY_DATABASE_URI"))
     if not database_exists(engine.url):
         create_database(engine.url)
-    login_manager.init_app(app.app)
+    login_manager.init_app(app)
 
     # Register blueprints.
-    app.app.register_blueprint(auth_blueprint)
-    app.app.register_blueprint(main_blueprint)
+    app.register_blueprint(auth_blueprint)
+    app.register_blueprint(main_blueprint)
 
     # Set up flask login.
     @login_manager.user_loader
@@ -52,7 +51,7 @@ def create_app():
     login_manager.anonymous_user = AnonymousUser
 
     # Error handlers.
-    @app.app.errorhandler(HTTPException)
+    @app.errorhandler(HTTPException)
     def handle_http_error(exc):
         return render_template('error.html', error=exc), exc.code
 
