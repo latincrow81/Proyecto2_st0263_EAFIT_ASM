@@ -15,6 +15,8 @@ _client = boto3.client('ec2',
                        region_name=config.get('REGION'))
 ec2 = boto3.resource("ec2", config=my_config)
 
+boto3.set_stream_logger('')
+
 
 def crear_instancia():
     instance = ec2.create_instances(
