@@ -24,8 +24,8 @@ def crear_pool():
         instance_1 = crear_instancia()
         instance_2 = crear_instancia()
         # agregar instancias a bd
-        agregar_instancia(pool_id=pool.id, instance_id=instance_1[0].instance_id)
-        agregar_instancia(pool_id=pool.id, instance_id=instance_2[0].instance_id)
+        agregar_instancia(pool_id=pool.id, instance_id=instance_1[0].instance_id, public_dns_name=instance_1[0].public_dns_name)
+        agregar_instancia(pool_id=pool.id, instance_id=instance_2[0].instance_id, public_dns_name=instance_2[0].public_dns_name)
 
         return Response(status=200, response=f"pool creado con 2 nodos, {instance_1[0].instance_id} y {instance_2[0].instance_id}")
     elif form.is_submitted():
