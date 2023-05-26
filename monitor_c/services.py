@@ -47,7 +47,7 @@ def get_system_status():
         status = Status.CRITICAL.value
     
     response = asm_pb2.MetricsRequest(status=status,
-                                      disk=int(disk_usage.percent),
+                                      disk=disk_usage.percent,
                                       network=network_usage,
                                       cpu=cpu_state,
                                       ram=ram_usage,
