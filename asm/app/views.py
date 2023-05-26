@@ -24,10 +24,10 @@ def crear_pool():
         instance_1 = crear_instancia()
         instance_2 = crear_instancia()
         # agregar instancias a bd
-        agregar_instancia(pool_id=pool.id, instance_id=instance_1.instanceId)
-        agregar_instancia(pool_id=pool.id, instance_id=instance_2.instanceId)
+        agregar_instancia(pool_id=pool.id, instance_id=instance_1[0].instanceId)
+        agregar_instancia(pool_id=pool.id, instance_id=instance_2[0].instanceId)
 
-        return Response(status=200, response=f"pool creado con 2 nodos, {instance_1.instanceId} y {instance_2.instanceId}")
+        return Response(status=200, response=f"pool creado con 2 nodos, {instance_1[0].instanceId} y {instance_2[0].instanceId}")
     elif form.is_submitted():
         flash('The given data was invalid.', 'danger')
 
