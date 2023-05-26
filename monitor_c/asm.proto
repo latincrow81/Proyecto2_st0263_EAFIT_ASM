@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+package asm;
+
+service MonitorService {
+  rpc Ping(PingRequest) returns (PingResponse) {}
+  rpc GetMetrics(MetricsRequest) returns (MetricsResponse) {}
+}
+
+message PingRequest {
+  string instance_id = 1;  
+}
+
+message PingResponse {
+  bool success = 1;
+}
+
+message MetricsResponse {
+  string instance_id = 1;
+}
+
+message MetricsRequest {
+  string status = 1;
+  float disk = 2;
+  string network = 3;
+  float cpu = 4;
+  float ram = 5;
+  string instance_id = 6;
+}
+
