@@ -28,7 +28,7 @@ class DbAPI:
     def __init__(self) -> None:
         db_url = get_database()
         self.engine = create_engine(db_url)
-        self.session_factory = sessionmaker(bind=self.engine)
+        self.session_factory = sessionmaker(bind=self.engine, expire_on_commit=False)
 
     @contextmanager
     def session_local(self) -> Generator:

@@ -11,7 +11,7 @@ def buscar_pool(pool_name) -> Pool:
 
 
 def agregar_pool(pool_name) -> Pool:
-    with db_api.session_local(expire_on_commit=False) as session:
+    with db_api.session_local() as session:
         pool = Pool(pool_name=pool_name)
         session.add(pool)
         session.commit()
@@ -25,7 +25,7 @@ def remover_pool(pool_name) -> None:
 
 
 def agregar_instancia(pool_id, instance_id):
-    with db_api.session_local(expire_on_commit=False) as session:
+    with db_api.session_local() as session:
         instance = Instance(pool_id=pool_id, Instance_id=instance_id)
         session.add(instance)
         session.commit()
@@ -45,7 +45,7 @@ def remover_instancia(instance_id):
 
 
 def agregar_pool_a_observacion(pool_id):
-    with db_api.session_local(expire_on_commit=False) as session:
+    with db_api.session_local() as session:
         pool_observation = PoolObservation(pool_id=pool_id)
         session.add(pool_observation)
         session.commit()
