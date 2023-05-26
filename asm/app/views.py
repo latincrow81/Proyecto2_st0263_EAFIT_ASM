@@ -27,7 +27,7 @@ def crear_pool():
         agregar_instancia(pool_id=pool.id, instance_id=instance_1[0].instance_id)
         agregar_instancia(pool_id=pool.id, instance_id=instance_2[0].instance_id)
 
-        return Response(status=200, response=f"pool creado con 2 nodos, {instance_1[0].instanceId} y {instance_2[0].instanceId}")
+        return Response(status=200, response=f"pool creado con 2 nodos, {instance_1[0].instance_id} y {instance_2[0].instance_id}")
     elif form.is_submitted():
         flash('The given data was invalid.', 'danger')
 
