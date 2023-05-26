@@ -24,11 +24,11 @@ def crear_instancia():
         MinCount=1,
         MaxCount=1,
         DryRun=bool(DRY_RUN),
-        EbsOptimized=True,
         LaunchTemplate={
             'LaunchTemplateId': 'lt-0e7478d2842766243',
             'Version': '1'
-        }
+        },
+        KeyName="st0253-2023-mescude1.pem"
     )
 
     return instance
