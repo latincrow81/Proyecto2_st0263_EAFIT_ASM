@@ -26,7 +26,7 @@ def crear_instancia():
         DryRun=bool(DRY_RUN),
         LaunchTemplate={
             'LaunchTemplateId': 'lt-0e7478d2842766243',
-            'Version': '1'
+            'Version': '2'
         })
 
     return instance
