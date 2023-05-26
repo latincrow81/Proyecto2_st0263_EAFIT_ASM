@@ -34,7 +34,7 @@ def crear_instancia():
         InstanceInitiatedShutdownBehavior='stop',
         
         LaunchTemplate={
-            'LaunchTemplateId': '0e7478d2842766243',
+            'LaunchTemplateId': 'lt-0e7478d2842766243',
             'Version': '1'
         }
     )
