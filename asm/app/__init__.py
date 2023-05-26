@@ -7,6 +7,7 @@ from dotenv import dotenv_values
 from sqlalchemy import create_engine
 from sqlalchemy_utils import database_exists, create_database
 
+from app.grpc_service import run_server
 from app.queue_service import init_stats_queue
 
 # instantiate extensions
@@ -56,4 +57,5 @@ def create_app():
         return render_template('error.html', error=exc), exc.code
 
     init_stats_queue()
+    run_server()
     return app
