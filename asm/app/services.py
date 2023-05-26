@@ -8,8 +8,11 @@ DRY_RUN = int(config.get('DRY_RUN'))
 my_config = Config(
     region_name=config.get('REGION')
 )
-
-ec2 = boto3.resource("ec2", config=my_config)
+session = boto3.Session(
+        aws_access_key_id=config.get('AWS_ACCESS_KEY_ID'),
+        aws_secret_access_key=config.get('AWS_SECRET_ACCESS_KEY'),
+)
+ec2 = session.resource("ec2", config=my_config)
 
 
 def crear_instancia():
