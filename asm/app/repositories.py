@@ -1,6 +1,6 @@
 from app.models import Pool, Instance, PoolObservation
 from app.db_api import DbAPI
-from utils import InstanceState
+from app.utils import InstanceState
 
 db_api = DbAPI()
 
