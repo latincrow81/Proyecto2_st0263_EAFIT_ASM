@@ -1,5 +1,6 @@
 from app.models import Pool, Instance, PoolObservation
 from app.db_api import DbAPI
+from utils import InstanceState
 
 db_api = DbAPI()
 
@@ -26,7 +27,7 @@ def remover_pool(pool_name) -> None:
 
 def agregar_instancia(pool_id, instance_id, public_dns_name):
     with db_api.session_local() as session:
-        instance = Instance(pool_id=pool_id, instance_id=instance_id, instance_endpoint=public_dns_name)
+        instance = Instance(pool_id=pool_id, instance_id=instance_id, instance_endpoint=public_dns_name, status=InstanceState.RUNNING)
         session.add(instance)
         session.commit()
 
