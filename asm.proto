@@ -21,9 +21,9 @@ message MetricsResponse {
 
 message MetricsRequest {
   string status = 1;
-  int32 disk = 2;
-  int32 network = 3;
-  int32 cpu = 4;
+  float disk = 2;
+  string network = 3;
+  float cpu = 4;
   int32 ram = 5;
   string instance_id = 6;
 }

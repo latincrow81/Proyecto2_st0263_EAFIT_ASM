@@ -31,7 +31,8 @@ def get_system_status():
     ram_usage = psutil.virtual_memory().percent
     disk_usage = psutil.disk_usage('/')
     network = psutil.net_io_counters(pernic=True)
-    network_usage = f"{network.get('eth0').bytes_sent}/{network.get('eth0').bytes_recv}"
+    # network_usage = f"{network.get('eth0').bytes_sent}/{network.get('eth0').bytes_recv}"
+    network_usage = ""
     instance_id = socket.gethostname()
     
     if cpu_state > 0.1:
@@ -46,7 +47,7 @@ def get_system_status():
         status = Status.CRITICAL.value
     
     response = asm_pb2.MetricsRequest(status=status,
-                                      disk=disk_usage,
+                                      disk=int(disk_usage.percent),
                                       network=network_usage,
                                       cpu=cpu_state,
                                       ram=ram_usage,
