@@ -11,8 +11,8 @@ my_config = Config(
 
 _client = boto3.client('ec2',
                        aws_access_key_id=config.get('AWS_ACCESS_KEY_ID'),
-                       aws_secret_access_key=config.get('AWS_SECRET_ACCESS_KEY')
-                       )
+                       aws_secret_access_key=config.get('AWS_SECRET_ACCESS_KEY'),
+                       region_name=config.get('REGION'))
 ec2 = boto3.resource("ec2", config=my_config)
 
 
