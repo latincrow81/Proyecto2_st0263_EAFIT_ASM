@@ -76,6 +76,7 @@ def handle_critical(instance_url):
                 instance.status = InstanceState.RUNNING
                 session.commit()
 
+
 grpc_config = json.dumps(
     {
         "methodConfig": [

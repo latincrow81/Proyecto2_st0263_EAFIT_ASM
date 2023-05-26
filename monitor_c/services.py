@@ -15,12 +15,14 @@ class Handler(asm_pb2_grpc.MonitorServiceServicer):
     def Ping(self, request, context):
         return asm_pb2.PingResponse(success=True)
 
+
 def send_status(message) -> str:
     with grpc.insecure_channel(f"{HOST_ASM}:{PORT_ASM}") as channel:
         stub = asm_pb2_grpc.MonitorSeriviceStub(channel)
         response = stub.GetMetrics(message)
 
     return response.result
+
 
 def get_system_status():
     status = Status.HEALTHY
@@ -43,11 +45,11 @@ def get_system_status():
         status = Status.CRITICAL
     
     response = asm_pb2.MetricsRequest(status=status,
-                                       disk=disk_usage,
-                                       network=network_usage,
-                                       cpu=cpu_state,
-                                       ram=ram_usage,
-                                       instance_id=instance_id)
+                                      disk=disk_usage,
+                                      network=network_usage,
+                                      cpu=cpu_state,
+                                      ram=ram_usage,
+                                      instance_id=instance_id)
     send_status(response)
 
 
