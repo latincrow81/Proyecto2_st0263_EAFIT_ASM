@@ -26,13 +26,13 @@ def send_status(message) -> str:
 
 
 def get_system_status():
-    status = Status.HEALTHY
+    status = Status.HEALTHY.value
     cpu_state = psutil.getloadavg()[1]
     ram_usage = psutil.virtual_memory().percent
     disk_usage = psutil.disk_usage('/')
     network = psutil.net_io_counters(pernic=True)
-    network_usage = f"{network.get('eth0').bytes_sent}/{network.get('eth0').bytes_recv}"
-    #network_usage = ""
+    #network_usage = f"{network.get('eth0').bytes_sent}/{network.get('eth0').bytes_recv}"
+    network_usage = ""
     instance_id = socket.gethostname()
     
     if cpu_state > 0.1:
