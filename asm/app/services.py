@@ -27,9 +27,6 @@ def crear_instancia():
         MinCount=1,
         MaxCount=1,
         DryRun=bool(DRY_RUN),
-        SecurityGroupIds=[
-            'sg-0e5842b06c8ed87f8',
-        ],
         EbsOptimized=True,
         InstanceInitiatedShutdownBehavior='stop',
         
