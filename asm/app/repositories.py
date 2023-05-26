@@ -27,7 +27,10 @@ def remover_pool(pool_name) -> None:
 
 def agregar_instancia(pool_id, instance_id, public_dns_name):
     with db_api.session_local() as session:
-        instance = Instance(pool_id=pool_id, instance_id=instance_id, instance_endpoint=public_dns_name, status=InstanceState.RUNNING)
+        instance = Instance(pool_id=pool_id,
+                            instance_id=instance_id,
+                            instance_endpoint=public_dns_name, 
+                            status=InstanceState.RUNNING.value)
         session.add(instance)
         session.commit()
 
