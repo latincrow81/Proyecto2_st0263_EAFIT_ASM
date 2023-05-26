@@ -95,14 +95,17 @@ grpc_config = json.dumps(
 )
 
 
-def send_ping(message) -> str:
+def send_ping() -> str:
     with db_api.session_local() as session:
         active_instances = session.query(Instance).all()
         for instance in active_instances:
             with grpc.insecure_channel(f"{instance.instance_endpoint}:{PORT_MONC}", options=[("grpc.service_config", grpc_config)]) as channel:
-                stub = asm_pb2_grpc.MessageStub(channel)
-                response = stub.PushMessage(message)
+                stub = asm_pb2_grpc.MonitorServiceStub(channel)
+                response = stub.PingRequest(instance_id=instance.id)
                 if not response.success:
                     reiniciar_instancia(instance.instance_id)
 
     return response.result
+
+process_queue()
+send_ping()
