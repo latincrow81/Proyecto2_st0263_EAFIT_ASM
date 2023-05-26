@@ -21,15 +21,10 @@ boto3.set_stream_logger('')
 def crear_instancia():
     instance = ec2.create_instances(
         InstanceType='t2.micro',
-        Monitoring={
-            'Enabled': True
-        },
         MinCount=1,
         MaxCount=1,
         DryRun=bool(DRY_RUN),
         EbsOptimized=True,
-        InstanceInitiatedShutdownBehavior='stop',
-        
         LaunchTemplate={
             'LaunchTemplateId': 'lt-0e7478d2842766243',
             'Version': '1'
